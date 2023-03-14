@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NaganoCake</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/5667bc939f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  </head>
+
+
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+
+            <!--adminログイン時のヘッダー-->
+            <% if admin_signed_in? %>
+              <li class="nav-item">
+                <%= link_to admin_items_path do %>
+                  <i class="">商品一覧</i>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to admin_customers_path do %>
+                  <i class="">会員一覧</i>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to admin_path  do %>
+                  <i class="">注文履歴一覧</i>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to admin_genres_path do%>
+                  <i class="">ジャンル一覧</i>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to destroy_admin_session_path, method: :delete do %>
+                  <i class="">ログアウト</i>
+                <% end %>
+              </li>
+              
+
+            <!--customersログイン時のヘッダー-->
+            <% elsif customer_signed_in? %>
+              <li class="nav-item">
+                ようこそ <%= link_to customers_path do %>
+                <strong><%= current_customer.last_name %><%= current_customer.first_name %></strong>
+                <% end %>
+                 さん
+              </li>
+              <li class="nav-item">
+                <%= link_to customers_path do %>
+                  <i class="">マイページ</i>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%#= link_to  items_path do %>
+                  <i class="">商品一覧</i>
+                <%# end %>
+              </li>
+              <li class="nav-item">
+                <%#= link_to cart_items_path do %>
+                  <i class="">カート</i>
+                <%# end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to destroy_customer_session_path, method: :delete do %>
+                  <i class="">ログアウト</i>
+                <% end %>
+              </li>
+               <% else %>
+            <!--ログイン前時のヘッダー-->
+              <li class="">
+                <%#= link_to about_path do %>
+                  <i class="">About</i>
+                <%# end %>
+              </li>
+              <li class="nav-item">
+                <%#= link_to items_path do %>
+                  <i class="">商品一覧</i>
+                <%# end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to new_customer_registration_path, data: {"turbolinks" => false} do %>
+                  <i class="">新規登録</i>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to  new_customer_session_path do%>
+                  <i class="">ログイン</i>
+                <% end %>
+              </li>
+              <li class="mt-3">
+                <%#= form_with url: search_path, method: :get, local: true do |f| %>
+                  <%#= f.collection_select :word_for_search, Genre.all, :id, :name %>
+                  <%#= f.submit "検索" %>
+                <%# end %>
+              </li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+  			<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+        <% flash.each do |key, value| %>
+          <p class="alert alert-<%= key %>">
+            <%= sanitize value, tags: %w(br) %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+    <main>
+      <%= yield %>
+    </main>
+    <footer>
+      
+    </footer>
+  </body>
+</html>
